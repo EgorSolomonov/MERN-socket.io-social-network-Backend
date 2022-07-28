@@ -19,7 +19,7 @@ const socketPort = process.env.PORT || 8900;
 const app = express();
 const io = new Server(socketPort, {
   cors: {
-    origin: "https://mern-socket-socialnetwork.herokuapp.com",
+    origin: "https://reliable-chimera-64298e.netlify.app",
   },
 });
 
