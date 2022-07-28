@@ -14,10 +14,10 @@ const path = require("path");
 const { Server } = require("socket.io");
 
 // Запуск библиотек
-const socketPort = process.env.PORT || 8900;
+// const socketPort = process.env.PORT || 8900;
 
 const app = express();
-const io = new Server(socketPort, {
+const io = new Server(8900, {
   cors: {
     origin: "https://reliable-chimera-64298e.netlify.app",
   },
