@@ -31,7 +31,7 @@ mongoose.connect(
   }
 );
 
-const io = new Server(port, {
+const io = new Server(8900, {
   cors: {
     origin: "https://mern-socket-socialnetwork.herokuapp.com/",
   },
