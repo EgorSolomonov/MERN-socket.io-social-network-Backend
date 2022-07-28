@@ -33,17 +33,39 @@ mongoose.connect(
   }
 );
 
-const server = http.createServer(app);
-
-const io = socketio(server);
-
-app.use(cors()); // добавление Acces control allow origin *
-
 /* const io = new Server(8900, {
   cors: {
     origin: "https://mern-socket-socialnetwork.herokuapp.com/",
   },
 }); */
+
+// middleware
+app.use(cors()); // добавление Acces control allow origin *
+
+app.use(morgan("common")); // подключение логгера, выводит инфу о запросе в console.log
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // использование статической директории вместо запроса при использовании данного пути /uploads
+app.use("/postUploads", express.static(path.join(__dirname, "postUploads"))); // использование статической директории вместо запроса при использовании данного пути /postUploads
+app.use("/api/users", userRouter); // путь к подзаголовку пути -  user
+app.use("/api/auth", authRouter); // путь к подзаголовку пути -  auth
+app.use("/api/post", postRouter); // путь к подзаголовку пути - post
+app.use("/api/upload", imageRouter); // путь к подзаголовку пути - image
+app.use("/api/upload", postImgRouter); // путь к подзаголовку пути - post img
+app.use("/api/conversation", conversationRouter); // путь к подзаголовку пути - conversation
+app.use("/api/message", messageRouter); // путь к подзаголовку пути - message
+
+app.get("/", (req, res) => {
+  res.send("Домашняя страница");
+});
+
+// Запуск сервера
+app.listen(port, () => {
+  console.log("Сервер подключен...");
+});
+
+const server = http.createServer(app);
+
+const io = socketio(server);
 
 // socket server data
 
@@ -98,27 +120,4 @@ io.on("connection", (socket) => {
     removeUser(socket.id);
     io.emit("getUsers", users);
   });
-});
-
-// middleware
-
-app.use(morgan("common")); // подключение логгера, выводит инфу о запросе в console.log
-
-app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // использование статической директории вместо запроса при использовании данного пути /uploads
-app.use("/postUploads", express.static(path.join(__dirname, "postUploads"))); // использование статической директории вместо запроса при использовании данного пути /postUploads
-app.use("/api/users", userRouter); // путь к подзаголовку пути -  user
-app.use("/api/auth", authRouter); // путь к подзаголовку пути -  auth
-app.use("/api/post", postRouter); // путь к подзаголовку пути - post
-app.use("/api/upload", imageRouter); // путь к подзаголовку пути - image
-app.use("/api/upload", postImgRouter); // путь к подзаголовку пути - post img
-app.use("/api/conversation", conversationRouter); // путь к подзаголовку пути - conversation
-app.use("/api/message", messageRouter); // путь к подзаголовку пути - message
-
-app.get("/", (req, res) => {
-  res.send("Домашняя страница");
-});
-
-// Запуск сервера
-app.listen(port, () => {
-  console.log("Сервер подключен...");
 });
