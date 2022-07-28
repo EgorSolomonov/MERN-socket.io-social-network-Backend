@@ -14,8 +14,10 @@ const path = require("path");
 const { Server } = require("socket.io");
 
 // Запуск библиотек
+const socketPort = process.env.PORT || 8900;
+
 const app = express();
-const io = new Server(8900, {
+const io = new Server(socketPort, {
   cors: {
     origin: "https://mern-socket-socialnetwork.herokuapp.com",
   },
