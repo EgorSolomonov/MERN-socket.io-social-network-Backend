@@ -31,13 +31,13 @@ mongoose.connect(
   }
 );
 
+app.use(cors()); // добавление Acces control allow origin *
+
 const io = new Server(port, {
   cors: {
     origin: "https://mern-socket-socialnetwork.herokuapp.com/",
   },
 });
-
-app.use(cors()); // добавление Acces control allow origin *
 
 // socket server data
 
