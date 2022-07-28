@@ -19,7 +19,7 @@ const { Server } = require("socket.io");
 const app = express();
 const io = new Server(8900, {
   cors: {
-    origin: "https://reliable-chimera-64298e.netlify.app",
+    origin: "https://mern-socket-socialnetwork.herokuapp.com",
   },
 });
 
