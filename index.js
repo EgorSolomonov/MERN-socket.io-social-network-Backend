@@ -11,8 +11,7 @@ const conversationRouter = require("./routes/conversations");
 const messageRouter = require("./routes/messages");
 const cors = require("cors");
 const path = require("path");
-const http = require("http");
-const socketio = require("socket.io");
+const { Server } = require("socket.io");
 
 // Запуск библиотек
 const app = express();
@@ -32,16 +31,14 @@ mongoose.connect(
   }
 );
 
-app.use(cors()); // добавление Acces control allow origin *
+const io = new Server(port, {
+  cors: {
+    origin: "https://mern-socket-socialnetwork.herokuapp.com/",
+  },
+});
 
 // socket server data
-const server = http.createServer(app);
-const io = socketio(server);
-/* , {
-  cors: {
-    origin: "https://mern-socket-socialnetwork.herokuapp.com",
-  },
-} */
+
 // add user
 let users = [];
 
@@ -96,6 +93,7 @@ io.on("connection", (socket) => {
 });
 
 // middleware
+app.use(cors()); // добавление Acces control allow origin *
 
 app.use(morgan("common")); // подключение логгера, выводит инфу о запросе в console.log
 
