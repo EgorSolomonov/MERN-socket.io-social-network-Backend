@@ -31,6 +31,8 @@ mongoose.connect(
   }
 );
 
+app.use(cors()); // добавление Acces control allow origin *
+
 // socket server data
 const io = new Server(
   app /* , {
@@ -94,7 +96,6 @@ io.on("connection", (socket) => {
 });
 
 // middleware
-app.use(cors()); // добавление Acces control allow origin *
 
 app.use(morgan("common")); // подключение логгера, выводит инфу о запросе в console.log
 
