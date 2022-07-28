@@ -14,16 +14,31 @@ const path = require("path");
 const { Server } = require("socket.io");
 
 // Запуск библиотек
-// const socketPort = process.env.PORT || 8900;
-
 const app = express();
-const io = new Server(8900, {
+
+// Данные сервера express и БД mongoDB
+const port = process.env.PORT || 8080;
+const url =
+  "mongodb+srv://Egor:tujhtujh3467T@cluster0.fqtx0.mongodb.net/socialNetwork?retryWrites=true&w=majority";
+
+// Подключение сервера express к базе данных mongoDB
+mongoose.connect(
+  url,
+  { useUnifiedTopology: true, useNewUrlParser: true },
+  (err) => {
+    if (err) return console.log(err);
+    console.log("База данных подключена...");
+  }
+);
+
+// socket server data
+const io = new Server(
+  app /* , {
   cors: {
     origin: "https://mern-socket-socialnetwork.herokuapp.com",
   },
-});
-
-// socket server data
+} */
+);
 
 // add user
 let users = [];
@@ -77,21 +92,6 @@ io.on("connection", (socket) => {
     io.emit("getUsers", users);
   });
 });
-
-// Данные сервера express и БД mongoDB
-const port = process.env.PORT || 8080;
-const url =
-  "mongodb+srv://Egor:tujhtujh3467T@cluster0.fqtx0.mongodb.net/socialNetwork?retryWrites=true&w=majority";
-
-// Подключение сервера express к базе данных mongoDB
-mongoose.connect(
-  url,
-  { useUnifiedTopology: true, useNewUrlParser: true },
-  (err) => {
-    if (err) return console.log(err);
-    console.log("База данных подключена...");
-  }
-);
 
 // middleware
 app.use(cors()); // добавление Acces control allow origin *
