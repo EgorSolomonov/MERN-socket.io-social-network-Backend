@@ -12,8 +12,6 @@ const messageRouter = require("./routes/messages");
 const cors = require("cors");
 const path = require("path");
 // const { Server } = require("socket.io");
-const socketio = require("socket.io");
-const http = require("http");
 
 // Запуск библиотек
 const app = express();
@@ -59,13 +57,11 @@ app.get("/", (req, res) => {
 });
 
 // Запуск сервера
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log("Сервер подключен...");
 });
 
-const server = http.createServer(app);
-
-const io = socketio(server);
+const io = require("socket.io").listen(server);
 
 // socket server data
 
