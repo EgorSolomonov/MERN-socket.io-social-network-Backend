@@ -11,7 +11,9 @@ const conversationRouter = require("./routes/conversations");
 const messageRouter = require("./routes/messages");
 const cors = require("cors");
 const path = require("path");
-const { Server } = require("socket.io");
+// const { Server } = require("socket.io");
+const socketio = require("socket.io");
+const http = require("http");
 
 // Запуск библиотек
 const app = express();
@@ -21,7 +23,7 @@ const port = process.env.PORT || 8080;
 const url =
   "mongodb+srv://Egor:tujhtujh3467T@cluster0.fqtx0.mongodb.net/socialNetwork?retryWrites=true&w=majority";
 
-// Подключение сервера express к базе данных mongoDB
+// Подключение к базе данных mongoDB
 mongoose.connect(
   url,
   { useUnifiedTopology: true, useNewUrlParser: true },
@@ -31,11 +33,15 @@ mongoose.connect(
   }
 );
 
-const io = new Server(port, {
+/* const io = new Server(app, {
   cors: {
     origin: "https://mern-socket-socialnetwork.herokuapp.com/",
   },
-});
+}); */
+
+const server = http.createServer(app);
+
+const io = socketio(server);
 
 // socket server data
 
@@ -112,6 +118,6 @@ app.get("/", (req, res) => {
 });
 
 // Запуск сервера
-app.listen(port, () => {
+server.listen(port, () => {
   console.log("Сервер подключен...");
 });
