@@ -13,6 +13,7 @@ const cors = require("cors");
 const path = require("path");
 // const { Server } = require("socket.io");
 const socketio = require("socket.io");
+const http = require("http");
 
 // Запуск библиотек
 const app = express();
@@ -32,7 +33,9 @@ mongoose.connect(
   }
 );
 
-const io = socketio(app);
+const server = http.createServer(app);
+
+const io = socketio(server);
 
 app.use(cors()); // добавление Acces control allow origin *
 
