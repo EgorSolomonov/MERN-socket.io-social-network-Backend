@@ -17,7 +17,7 @@ const { Server } = require("socket.io");
 const app = express();
 const io = new Server(8900, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://mern-socket-socialnetwork.herokuapp.com",
   },
 });
 
