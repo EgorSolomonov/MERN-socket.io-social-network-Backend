@@ -44,7 +44,7 @@ const server = http.createServer(app);
 
 const io = socketio(server, {
   cors: {
-    origin: "https://mern-socket-socialnetwork.herokuapp.com/",
+    origin: "https://reliable-chimera-64298e.netlify.app",
   },
 });
 
