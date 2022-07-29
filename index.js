@@ -38,6 +38,7 @@ mongoose.connect(
     origin: "https://mern-socket-socialnetwork.herokuapp.com/",
   },
 }); */
+app.use(cors()); // добавление Acces control allow origin *
 
 const server = http.createServer(app);
 
@@ -56,8 +57,6 @@ app.use("/api/upload", imageRouter); // путь к подзаголовку п�
 app.use("/api/upload", postImgRouter); // путь к подзаголовку пути - post img
 app.use("/api/conversation", conversationRouter); // путь к подзаголовку пути - conversation
 app.use("/api/message", messageRouter); // путь к подзаголовку пути - message
-
-app.use(cors()); // добавление Acces control allow origin *
 
 // socket server data
 
@@ -81,6 +80,7 @@ const removeUser = (socketId) => {
 const getUser = (receiverId) => {
   return users.find((user) => user.userId === receiverId);
 };
+
 io.on("connection", (socket) => {
   console.log("a user connected");
 
