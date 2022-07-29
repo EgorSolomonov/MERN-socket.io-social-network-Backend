@@ -14,8 +14,9 @@ const path = require("path");
 // const { Server } = require("socket.io");
 const http = require("http");
 
-// Запуск библиотек
+// Создание сервера express
 const app = express();
+
 app.use(cors()); // добавление Acces control allow origin *
 
 // Данные сервера express и БД mongoDB
@@ -33,18 +34,14 @@ mongoose.connect(
   }
 );
 
-/* const io = new Server(app, {
-  cors: {
-    origin: "https://mern-socket-socialnetwork.herokuapp.com/",
-  },
-}); */
+//  инициализация socket.io
 const socketio = require("socket.io");
 
-const server = http.createServer(app);
+const server = http.createServer(app); //создание сервера для сокетов на базе сервера express
 
 const io = socketio(server, {
   cors: {
-    origin: "https://reliable-chimera-64298e.netlify.app",
+    origin: "https://reliable-chimera-64298e.netlify.app", // cors для клиента
   },
 });
 
@@ -64,7 +61,6 @@ app.use("/api/message", messageRouter); // путь к подзаголовку 
 
 // socket server data
 
-// add user
 let users = [];
 
 const addUser = (userId, socketId) => {
